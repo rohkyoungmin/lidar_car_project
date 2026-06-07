@@ -1,4 +1,4 @@
-# Lidar Car Project
+# Lidar Auto-drive Vehicle Project
 
 <img width="1920" height="1080" alt="스크린샷 2026-06-07 205349" src="https://github.com/user-attachments/assets/f8959cfb-1bfc-41a2-abbf-0dd527c4ad72" />
 
