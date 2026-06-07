@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lidar Drive</title>
+    <link rel="stylesheet" href="/static/style.css?v=14">
+  </head>
+  <body>
+    <main id="ivi-shell" class="ivi-shell manual-mode">
+      <aside id="drawer" class="drawer" aria-label="Navigation drawer">
+        <div class="drawer-title">Drive Mode</div>
+        <button class="drawer-item" data-mode="auto">Auto-Drive</button>
+        <button class="drawer-item active" data-mode="manual">Manual-Drive</button>
+        <button class="drawer-item" data-mode="test">Test</button>
+        <button class="drawer-item" data-mode="settings">Settings</button>
+      </aside>
+      <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+      <header class="ivi-top">
+        <div class="top-left">
+          <button id="menu-button" class="menu-button" aria-label="Open menu">
+            <span></span><span></span><span></span>
+          </button>
+          <div class="top-chips">
+            <div class="chip" id="chip-serial"><span>Serial</span><strong id="connected">—</strong></div>
+            <div class="chip" id="chip-safety"><span>Safety</span><strong id="safety">—</strong></div>
+            <div class="chip" id="chip-lidar"><span>LiDAR</span><strong id="lidar">—</strong></div>
+          </div>
+        </div>
+        <div class="service-name">Lidar Drive</div>
+        <div class="date-time">
+          <span id="date-label">—</span>
+          <strong id="clock">—</strong>
+        </div>
+      </header>
+
+      <section class="ivi-main">
+        <section class="col-lidar" aria-label="LiDAR map">
+          <div class="panel-title">
+            <h2 id="map-title">Live LiDAR Scan</h2>
+            <span id="mode-readout">Manual-Drive</span>
+          </div>
+          <div class="lidar-map-frame">
+            <canvas id="lidar-canvas" width="960" height="960"></canvas>
+            <div id="obstacle-popup" class="obstacle-popup">전방에 장애물이 있습니다.</div>
+          </div>
+        </section>
+
+        <section class="col-control" aria-label="Mode controls">
+          <section id="pane-manual" class="ctrl-pane active">
+            <h2>Manual Control</h2>
+            <p>Use arrow keys or W A S D. Release to stop.</p>
+            <div class="drive-pad" aria-label="Drive controls">
+              <button class="drive-btn forward" data-linear="1" data-angular="0">▲</button>
+              <button class="drive-btn left" data-linear="0" data-angular="1">◀</button>
+              <div class="drive-core">●</div>
+              <button class="drive-btn right" data-linear="0" data-angular="-1">▶</button>
+              <button class="drive-btn backward" data-linear="-1" data-angular="0">▼</button>
+            </div>
+            <div class="speed-panel">
+              <label class="speed-row">
+                <span>Linear</span>
+                <input id="linear-speed" type="range" min="0.03" max="0.15" value="0.08" step="0.01">
+                <output id="linear-value">0.08</output>
+              </label>
+              <label class="speed-row">
+                <span>Angular</span>
+                <input id="angular-speed" type="range" min="0.10" max="0.60" value="0.40" step="0.05">
+                <output id="angular-value">0.40</output>
+              </label>
+              <label class="safe-switch">
+                <span class="safe-label">Safe Mode</span>
+                <input id="safe-mode" type="checkbox" checked>
+                <span class="switch-track"><span class="switch-thumb"></span></span>
+                <strong id="safety-reason">—</strong>
+              </label>
+            </div>
+          </section>
+
+          <section id="pane-settings" class="ctrl-pane">
+            <h2>Settings</h2>
+            <p>Wheel trim and direction calibration.</p>
+            <div id="wheel-list" class="wheel-list"></div>
+          </section>
+
+          <section id="pane-test" class="ctrl-pane">
+            <h2>Wheel Test</h2>
+            <p>Lift wheels before using these commands.</p>
+            <div class="test-controls">
+              <label class="speed-row">
+                <span>PWM</span>
+                <input id="test-pwm" type="range" min="30" max="120" value="80" step="5">
+                <output id="test-pwm-value">80</output>
+              </label>
+              <label class="speed-row">
+                <span>Duration</span>
+                <input id="test-duration" type="range" min="0.2" max="0.7" value="0.4" step="0.1">
+                <output id="test-duration-value">0.4s</output>
+              </label>
+            </div>
+            <div id="test-wheel-list" class="test-wheel-list"></div>
+          </section>
+        </section>
+
+        <section class="col-status" aria-label="Obstacle sensing">
+          <div class="distance-card">
+            <span>Front</span>
+            <strong id="front-min-small">—</strong>
+            <small>meters</small>
+          </div>
+
+          <div class="car-stage">
+            <svg id="car-svg" viewBox="-140 -180 280 360" xmlns="http://www.w3.org/2000/svg">
+              <path id="arc-front" class="sense-arc" d="M -88 -114 Q 0 -176 88 -114"/>
+              <path id="arc-left" class="sense-arc" d="M -96 -70 Q -154 0 -96 70"/>
+              <path id="arc-right" class="sense-arc" d="M 96 -70 Q 154 0 96 70"/>
+              <path id="arc-rear" class="sense-arc" d="M -82 116 Q 0 170 82 116"/>
+
+              <ellipse cx="0" cy="18" rx="74" ry="128" fill="rgba(0,0,0,0.06)"/>
+              <path class="car-body" d="M 0 -142 C 50 -126 67 -58 64 82 C 48 134 -48 134 -64 82 C -67 -58 -50 -126 0 -142 Z"/>
+              <path class="car-glass" d="M 0 -96 C 27 -82 34 -35 30 22 C 16 38 -16 38 -30 22 C -34 -35 -27 -82 0 -96 Z"/>
+              <path class="car-cabin" d="M -31 38 C -18 56 18 56 31 38 L 25 92 C 12 105 -12 105 -25 92 Z"/>
+              <rect x="-83" y="-94" width="23" height="54" rx="9" class="wheel"/>
+              <rect x="60" y="-94" width="23" height="54" rx="9" class="wheel"/>
+              <rect x="-83" y="50" width="23" height="54" rx="9" class="wheel"/>
+              <rect x="60" y="50" width="23" height="54" rx="9" class="wheel"/>
+              <circle cx="0" cy="-20" r="20" class="lidar-housing"/>
+              <circle cx="0" cy="-20" r="8" class="lidar-core"/>
+            </svg>
+          </div>
+
+          <div class="sector-readout">
+            <div><span>Front</span><strong id="sector-front">—</strong></div>
+            <div><span>Left</span><strong id="sector-left">—</strong></div>
+            <div><span>Right</span><strong id="sector-right">—</strong></div>
+            <div><span>Rear</span><strong id="sector-rear">—</strong></div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="/static/app.js?v=14"></script>
+  </body>
+</html>

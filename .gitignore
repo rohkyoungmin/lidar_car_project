@@ -1,0 +1,25 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# ROS2 / colcon generated files
+ros2_ws/build/
+ros2_ws/install/
+ros2_ws/log/
+
+# Local editor and OS files
+.DS_Store
+*.swp
+*.swo
+.vscode/
+.idea/
+
+# Runtime/generated scan snapshots
+web_control/static/.scan_*.json
