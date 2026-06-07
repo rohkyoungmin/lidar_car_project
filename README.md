@@ -1,5 +1,7 @@
 # Lidar Car Project
 
+<img width="1920" height="1080" alt="스크린샷 2026-06-07 205349" src="https://github.com/user-attachments/assets/f8959cfb-1bfc-41a2-abbf-0dd527c4ad72" />
+
 Raspberry Pi 4, Arduino Uno R3, RPLIDAR C1, TB6612FNG 2개를 사용하는 4WD differential drive 로봇카 프로젝트입니다.
 
 현재 구현된 범위는 다음입니다.
