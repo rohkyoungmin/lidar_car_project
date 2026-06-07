@@ -4,6 +4,8 @@
 
 Raspberry Pi 4, Arduino Uno R3, RPLIDAR C1, TB6612FNG 2개를 사용하는 4WD differential drive 로봇카 프로젝트입니다.
 
+<img width="4032" height="3024" alt="KakaoTalk_20260607_210739863" src="https://github.com/user-attachments/assets/2c36a01d-7193-4dfb-b8f0-557b212b1da1" />
+
 현재 구현된 범위는 다음입니다.
 
 - PC 브라우저에서 접속하는 IVI 스타일 웹 UI
@@ -46,6 +48,11 @@ Raspberry Pi 4, Arduino Uno R3, RPLIDAR C1, TB6612FNG 2개를 사용하는 4WD d
 - 배터리 `+`를 Arduino 5V, TB6612 VCC, STBY, 브레드보드 5V 레일에 연결하면 안 됩니다.
 
 ## 3. 핀맵
+
+<img width="497" height="810" alt="스크린샷 2026-06-07 210432" src="https://github.com/user-attachments/assets/a5ddac2b-3c9c-4666-8847-48575b3b48e9" />
+
+위 사진은 실제 핀맵을 나타낸 것입니다.
+참고하여 배선을 해주십시오.
 
 왼쪽 TB6612:
 
