@@ -447,32 +447,7 @@ ls -l /dev/ttyACM0
 
 Arduino가 다른 프로그램에 의해 열려 있으면 웹 서버가 Serial을 열 수 없습니다.
 
-## 16. SLAM으로 가려면
-
-현재는 SLAM이 아닙니다.
-
-SLAM을 하려면 최소한 다음이 필요합니다.
-
-```text
-LiDAR /scan
-encoder odometry /odom
-TF: map -> odom -> base_link -> laser
-slam_toolbox
-```
-
-다음 개발 단계:
-
-1. 바퀴 엔코더 추가
-2. Arduino에서 encoder tick 읽기
-3. ROS2 `encoder_odom_node.py` 작성
-4. `/odom` publish
-5. `odom -> base_link` TF publish
-6. `base_link -> laser` static TF 추가
-7. `slam_toolbox`로 지도 작성
-
-엔코더 없이 LiDAR만으로 SLAM을 시도할 수는 있지만, 4WD 수동 로봇에서는 안정적이지 않습니다.
-
-## 17. 가장 짧은 실행 순서
+## 16. 가장 짧은 실행 순서
 
 처음 보는 사람이 따라 할 때는 이 순서만 기억하면 됩니다.
 
